@@ -3,7 +3,7 @@
 
 # # Generate Sankey Plot for KG-COVID-19
 
-# In[3]:
+# In[1]:
 
 
 import json
@@ -12,7 +12,7 @@ import wget
 import plotly.graph_objects as go
 
 
-# In[1]:
+# In[2]:
 
 
 def generate_sankey_json_s2c(stats, **kwargs):
@@ -33,7 +33,8 @@ def generate_sankey_json_s2c(stats, **kwargs):
         'color': sankey_links['color'],
     }
     sankey['layout']['title']['text'] = f"Sankey Plot for KG-COVID-19"
-    all_nodes = sorted([x for x in stats['node_stats']['node_categories']])
+    all_nodes = ['unknown']
+    all_nodes += sorted([x for x in stats['node_stats']['node_categories']])
     all_nodes += sorted(stats['node_stats']['provided_by'])
 
     fixed = set([x.split(' ')[0] if 'SciBite' in x else x for x in all_nodes])
@@ -137,7 +138,6 @@ def generate_sankey_json_s2c2c2s(stats, **kwargs):
     all_nodes += ['o#unknown']
     all_nodes += sorted([f"o#{x}" for x in stats['node_stats']['node_categories']])
     all_nodes += sorted([f"r#{x}" for x in stats['edge_stats']['provided_by']])
-    print(all_nodes)
     fixed = set([x.split(' ')[0] if 'SciBite' in x else x for x in all_nodes])
     all_proper_nodes = sorted(list(fixed))
     sankey_nodes['label'] = all_proper_nodes
@@ -188,7 +188,7 @@ def generate_sankey_json_s2c2c2s(stats, **kwargs):
 
 # ## Load stats from KG-COVID-19
 
-# In[4]:
+# In[3]:
 
 
 #stats = 'http://kg-hub.berkeleybop.io/merged_graph_stats.yaml'
@@ -198,7 +198,7 @@ stats = yaml.load(open('test_graph_stats.yaml'), Loader=yaml.FullLoader)
 
 # ## Sankey plot with just source and category
 
-# In[15]:
+# In[4]:
 
 
 data = generate_sankey_json_s2c(stats)
@@ -232,7 +232,7 @@ fig.show()
 
 # ## Sankey plot with category-category associations, and source
 
-# In[2]:
+# In[5]:
 
 
 data = generate_sankey_json_c2c2s(stats)
@@ -266,7 +266,7 @@ fig.show()
 
 # ## Sankey plot with source, category-category associations, and source
 
-# In[5]:
+# In[6]:
 
 
 data = generate_sankey_json_s2c2c2s(stats)
@@ -298,7 +298,7 @@ fig.update_layout(title_text="KG-COVID-19", font_size=9)
 fig.show()
 
 
-# In[20]:
+# In[7]:
 
 
 # Note: If you would like to export these plots as high resolution PDF/PNG/SVG then the following 
